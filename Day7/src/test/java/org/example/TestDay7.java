@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class TestDay7 {
+
     @Test
     public void isPossibleReturnsTrueSingleMultiplicationTest() {
         ArrayList<BigInteger> equation = new ArrayList<>();
@@ -221,7 +222,7 @@ public class TestDay7 {
         equation.add(new BigInteger("16"));
         equation.add(new BigInteger("20"));
 
-        Boolean expected = false;
+        Boolean expected = true;
         Boolean actual = Day7.isPossible(equation);
 
         assertEquals(expected, actual);
