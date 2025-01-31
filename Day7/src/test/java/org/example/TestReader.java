@@ -2,8 +2,8 @@ package org.example;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 public class TestReader {
     @Test
     public void getInputTest() {
-        ArrayList<List<Object>> actual = Reader.getInput();
+        ArrayList<ArrayList<BigInteger>> actual = Reader.getInput();
         assertNotNull("getInput should return something", actual);
         assertEquals(850, actual.size());
         int first_equation_length = actual.get(0).size();

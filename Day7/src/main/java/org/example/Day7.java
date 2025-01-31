@@ -3,15 +3,101 @@
  */
 package org.example;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Day7 {
-    public String getGreeting() {
-        return "Hello World!";
+    public static void main(String[] args) {
+        ArrayList<ArrayList<BigInteger>> input = Reader.getInput();
+        BigInteger totalWorkingEquations = BigInteger.ZERO;
+        System.out.println(input);
+
+
+        for(ArrayList<BigInteger> equation: input) {
+            if(isPossible(equation))
+                totalWorkingEquations.add(equation.get(0));
+        }
+        System.out.println(totalWorkingEquations);
     }
 
-    public static void main(String[] args) {
-        System.out.println(Reader.getInput());
+    public static boolean isPossible(ArrayList<BigInteger> passedInEquation) {
+        ArrayList<BigInteger> equation = new ArrayList<>(passedInEquation);
+        BigInteger target = equation.get(0);
+        equation.remove(0);
+
+        int NumberOfOperationsSlot = equation.size() - 1;
+//        only can use + or * so times 2
+        double NumberOfPossibleResults = Math.pow(2, NumberOfOperationsSlot);
+        ArrayList<BigInteger> ResultSet = new ArrayList<>((int)NumberOfPossibleResults);
+
+//        create the result set
+        for (int i = 0; i < NumberOfPossibleResults; i++) {
+            ResultSet.add(equation.get(0));
+        }
+//        +, *
+        BigInteger CurrentValue = equation.get(1);
+        for (int i = 0; i < NumberOfPossibleResults; i++) {
+            BigInteger currentResult = ResultSet.get(i);
+            if(i % 2 == 0){
+                ResultSet.set(i, currentResult.multiply(CurrentValue));
+            } else {
+                ResultSet.set(i, currentResult.add(CurrentValue));
+            }
+        }
+        //                   **, ++, +*, *+
+        if(equation.size() > 2) {
+//            this implementation gets the *+,+* but misses the **, ++
+            BigInteger nextCurrentValue = equation.get(2);
+            for (int i = 0; i < NumberOfPossibleResults; i++) {
+                BigInteger currentResult = ResultSet.get(i);
+                if (i % 2 == 0) {
+                    ResultSet.set(i, currentResult.add(nextCurrentValue));
+                } else {
+                    ResultSet.set(i, currentResult.multiply(nextCurrentValue));
+                }
+            }
+//            do the two results where all multiplication or all addition
+            BigInteger multiplicationResult = BigInteger.valueOf(1);
+            BigInteger additionResult = BigInteger.valueOf(0);
+            for(BigInteger number: equation) {
+                multiplicationResult = multiplicationResult.multiply(number);
+                additionResult = additionResult.add(number);
+            }
+            ResultSet.set(0, multiplicationResult);
+            ResultSet.set(1, additionResult);
+
+        }
+        if(ResultSet.contains(target)) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
 }
+
+
+
+
+//                for 3 operations
+//                +++, ++*, +**, +*+,
+//                ***, **+, *++, *+*
+//        for (int j = 1; j < equation.size(); j++) {
+//            BigInteger CurrentValue = equation.get(j);
+//            for (int i = 0; i < NumberOfPossibleResults; i++) {
+//                BigInteger currentResult = ResultSet.get(i);
+////                this pattern is not correct; **, ++, **, ++
+////                  ++,
+////                  +*,
+////                  **,
+////                  *+
+//                if(i % 2 == 0){
+//                    ResultSet.set(i, currentResult.multiply(CurrentValue));
+//                } else {
+//                    ResultSet.set(i, currentResult.add(CurrentValue));
+//                }
+////                for 3 operations
+////                +++, ++*, +**, +*+,
+////                ***, **+, *++, *+*
+//            }
+//        }
