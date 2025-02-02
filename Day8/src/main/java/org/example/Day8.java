@@ -3,11 +3,8 @@
  */
 package org.example;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-
 public class Day8 {
     public static void main(String[] args) {
         System.out.println("Day 8");
-    }
+        Reader.getInputLinesAsString();}
 }

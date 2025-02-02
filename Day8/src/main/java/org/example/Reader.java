@@ -2,21 +2,22 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigInteger;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Reader {
 
-    public static ArrayList<ArrayList<BigInteger>> getInput() {
-        ArrayList<String> StringInputs = Reader.getInputAsString();
-        return Reader.getInputAsInts(StringInputs);
+    public static ArrayList<char[]> getInput(){
+        ArrayList<String> inputLines = Reader.getInputLinesAsString();
+        return Reader.convertInputLinesToCharArrays(inputLines);
     }
-    public static ArrayList<String> getInputAsString() {
+
+    public static ArrayList<String> getInputLinesAsString() {
         ArrayList<String> inputs = new ArrayList<>();
         try(Scanner scanner = new Scanner(
                 new File(
-                "/Users/chris.rossell/projects/AdventOfCode2024Java/Day7/src/main/resources/input.txt")
+                "/Users/chris.rossell/projects/AdventOfCode2024Java/Day8/src/main/resources/input.txt")
                 ).useDelimiter("\n")
         ) {
             while (scanner.hasNextLine()) {
@@ -29,18 +30,14 @@ public class Reader {
         return inputs;
     }
 
-    public static ArrayList<ArrayList<BigInteger>> getInputAsInts(ArrayList<String> StringInputs) {
-        ArrayList<ArrayList<BigInteger>> inputs = new ArrayList<>();
-
-        for(String s : StringInputs) {
-            String[] line = s.split(" ");
-            ArrayList<BigInteger> input = new ArrayList<>();
-            for (String value: line) {
-                value = value.replace(":", "");
-                input.add(new BigInteger(value));
-            }
-            inputs.add(input);
+    public static ArrayList<char[]> convertInputLinesToCharArrays(ArrayList<String> inputs) {
+        ArrayList<char[]> output = new ArrayList<>();
+        for(String input: inputs) {
+            char[] charArray = input.toCharArray();
+            output.add(charArray);
         }
-        return inputs;
+        return output;
+
     }
+
 }
