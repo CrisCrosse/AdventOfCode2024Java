@@ -7,8 +7,39 @@ import java.util.*;
 
 public class Day8 {
     public static void main(String[] args) {
-        System.out.println("Day 8");
-        Reader.getInputLinesAsString();
+        ArrayList<char[]> antennas = Reader.getInput();
+        Map<Character, ArrayList<Position>> antennaPositions = getCharPositions(antennas);
+        Set<Character> antennaChars = antennaPositions.keySet();
+        Set<Position> antiNodes = new HashSet<>();
+
+        for(char currentChar: antennaChars) {
+            System.out.println(currentChar);
+            ArrayList<Position> positionsForCurrentChar = antennaPositions.get(currentChar);
+            antiNodes.addAll(getAntiNodesForChar(positionsForCurrentChar));
+        }
+        System.out.println(antiNodes.size());
+//        310 is too high
+    }
+
+    private static Set<Position> getAntiNodesForChar(ArrayList<Position> positionsForCurrentChar) {
+        Set<Position> antiNodes = new HashSet<>();
+        for(Position position: positionsForCurrentChar) {
+            System.out.println("current: " + position);
+
+            for(Position other_position: positionsForCurrentChar){
+                if(!position.equals(other_position)) {
+//                        System.out.println("other: " + other_position);
+                    Position difference = position.minus(other_position);
+                    Position antiNodePosition = position.add(difference);
+//                        System.out.println("antinode for current - other: " + antiNodePosition);
+                    if(antiNodePosition.isNotOutOfBounds()){
+//                            System.out.println("added antinode: " + antiNodePosition);
+                        antiNodes.add(antiNodePosition);
+                    }
+                }
+            }
+        }
+        return antiNodes;
     }
 
     public static Map<Character, ArrayList<Position>> getCharPositions(ArrayList<char[]> input){
