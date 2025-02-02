@@ -12,4 +12,5 @@ plugins {
 
 rootProject.name = 'AdventOfCode2024Java'
 include('Day7')
+include('Day8')
 include('app2')
