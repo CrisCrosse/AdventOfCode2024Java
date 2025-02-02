@@ -1,18 +1,18 @@
 package org.example;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class TestReader {
     @Test
     public void getInputTest() {
         ArrayList<char[]> actual = Reader.getInput();
 
-        assertNotNull("getInput should return something", actual);
+        assertNotNull(actual);
         assertEquals(50, actual.size());
         int firstLineLength = actual.get(0).length;
         int lastLineLength = actual.get(49).length;

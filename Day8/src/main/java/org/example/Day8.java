@@ -3,8 +3,35 @@
  */
 package org.example;
 
+import java.util.*;
+
 public class Day8 {
     public static void main(String[] args) {
         System.out.println("Day 8");
-        Reader.getInputLinesAsString();}
+        Reader.getInputLinesAsString();
+    }
+
+    public static Map<Character, ArrayList<Position>> getCharPositions(ArrayList<char[]> input){
+        Map<Character, ArrayList<Position>> allCharsAndPositions = new HashMap<>();
+
+        for(int row = 0; row < input.size(); row++){
+            char[] line = input.get(row);
+            for(int col = 0; col < line.length; col++){
+                char currentChar = line[col];
+
+                if(currentChar != '.'){
+                    Position position = new Position(row, col);
+                    if(allCharsAndPositions.get(currentChar) == null){
+                        ArrayList<Position> newCharPositions = new ArrayList<>();
+                        newCharPositions.add(position);
+                        allCharsAndPositions.put(currentChar, newCharPositions);
+                    } else {
+                        ArrayList<Position> charPositions = allCharsAndPositions.get(currentChar);
+                        charPositions.add(position);
+                    }
+                }
+            }
+        }
+        return allCharsAndPositions;
+    }
 }

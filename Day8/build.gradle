@@ -29,8 +29,9 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit test framework.
-    testImplementation libs.junit
+    // Use JUnit test framework version 5 for iterable equals
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
     // This dependency is used by the application.
     implementation libs.guava
@@ -46,4 +47,8 @@ java {
 application {
     // Define the main class for the application.
     mainClass = 'org.example.Day8'
+}
+
+test {
+    useJUnitPlatform()
 }
