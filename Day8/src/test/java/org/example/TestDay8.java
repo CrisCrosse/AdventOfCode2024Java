@@ -3,14 +3,12 @@ package org.example;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDay8 {
+
     @Test
     public void getCharPositionsOneLineTest(){
         ArrayList<char[]> input = new ArrayList<>();
@@ -74,6 +72,154 @@ public class TestDay8 {
         ArrayList<Position> actualPositions_b =  actual.get('b');
         assertIterableEquals(expectedPositions_a, actualPositions_a);
         assertIterableEquals(expectedPositions_b, actualPositions_b);
+
+    }
+
+    @Test
+    public void getAntiNodesForCharTestAsFromExample(){
+        ArrayList<Position> antennaPositions = new ArrayList<>();
+        Position position_A1 = new Position(5, 6);
+        Position position_A2 = new Position(8, 8);
+        Position position_A3 = new Position(9, 9);
+        antennaPositions.add(position_A1);
+        antennaPositions.add(position_A2);
+        antennaPositions.add(position_A3);
+
+        Set<Position> expectedAntiNodes = new HashSet<>();
+        Position antiNode_A1A2 = new Position(2, 4);
+        Position antiNode_A1A3 = new Position(1, 3);
+        Position antiNode_A2A1 = new Position(11, 10);
+        Position antiNode_A2A3 = new Position(7, 7);
+        Position antiNode_A3A2 = new Position(10, 10);
+        expectedAntiNodes.add(antiNode_A1A2);
+        expectedAntiNodes.add(antiNode_A1A3);
+        expectedAntiNodes.add(antiNode_A2A1);
+        expectedAntiNodes.add(antiNode_A2A3);
+        expectedAntiNodes.add(antiNode_A3A2);
+
+        Set<Position> actual = Day8.getAntiNodesForChar(antennaPositions, 11);
+
+        assertIterableEquals(expectedAntiNodes, actual);
+
+    }
+
+    @Test
+    public void getAntiNodesForCharTestOsFromExample(){
+        ArrayList<Position> antennaPositions = new ArrayList<>();
+        Position position_O1 = new Position(1, 8);
+        Position position_O2 = new Position(2, 5);
+        Position position_O3 = new Position(3, 7);
+        Position position_O4 = new Position(4, 4);
+
+        antennaPositions.add(position_O1);
+        antennaPositions.add(position_O2);
+        antennaPositions.add(position_O3);
+        antennaPositions.add(position_O4);
+
+        Set<Position> expectedAntiNodes = new HashSet<>();
+        Position antiNode_O1O2 = new Position(0, 11);
+        Position antiNode_O2O1 = new Position(3, 2);
+        Position antiNode_O2O3 = new Position(1, 3);
+        Position antiNode_O2O4 = new Position(0, 6);
+        Position antiNode_O3O1 = new Position(5, 6);
+        Position antiNode_O3O2 = new Position(4, 9);
+        Position antiNode_O3O4 = new Position(2, 10);
+        Position antiNode_O4O1 = new Position(7, 0);
+        Position antiNode_O4O2 = new Position(6, 3);
+        Position antiNode_O4O3 = new Position(5, 1);
+        expectedAntiNodes.add(antiNode_O1O2);
+        expectedAntiNodes.add(antiNode_O2O1);
+        expectedAntiNodes.add(antiNode_O2O3);
+        expectedAntiNodes.add(antiNode_O2O4);
+        expectedAntiNodes.add(antiNode_O3O1);
+        expectedAntiNodes.add(antiNode_O3O2);
+        expectedAntiNodes.add(antiNode_O3O4);
+        expectedAntiNodes.add(antiNode_O4O1);
+        expectedAntiNodes.add(antiNode_O4O2);
+        expectedAntiNodes.add(antiNode_O4O3);
+
+        Set<Position> actual = Day8.getAntiNodesForChar(antennaPositions, 11);
+
+        assertIterableEquals(expectedAntiNodes, actual);
+
+    }
+
+    @Test
+    public void getAntiNodesTest(){
+        ArrayList<Position> antennaPositionsOs = new ArrayList<>();
+        Position position_O1 = new Position(1, 8);
+        Position position_O2 = new Position(2, 5);
+        Position position_O3 = new Position(3, 7);
+        Position position_O4 = new Position(4, 4);
+        antennaPositionsOs.add(position_O1);
+        antennaPositionsOs.add(position_O2);
+        antennaPositionsOs.add(position_O3);
+        antennaPositionsOs.add(position_O4);
+        Position position_A1 = new Position(5, 6);
+        Position position_A2 = new Position(8, 8);
+        Position position_A3 = new Position(9, 9);
+        ArrayList<Position> antennaPositionsAs = new ArrayList<>();
+        antennaPositionsAs.add(position_A1);
+        antennaPositionsAs.add(position_A2);
+        antennaPositionsAs.add(position_A3);
+
+        Map<Character, ArrayList<Position>> antennaPositionsByChar = new HashMap<>();
+        antennaPositionsByChar.put('O', antennaPositionsOs);
+        antennaPositionsByChar.put('A', antennaPositionsAs);
+
+        Set<Position> expectedAntiNodes = new HashSet<>();
+        Position antiNode_O1O2 = new Position(0, 11);
+        Position antiNode_O2O1 = new Position(3, 2);
+        Position antiNode_O2O3 = new Position(1, 3);
+        Position antiNode_O2O4 = new Position(0, 6);
+        Position antiNode_O3O1 = new Position(5, 6);
+        Position antiNode_O3O2 = new Position(4, 9);
+        Position antiNode_O3O4 = new Position(2, 10);
+        Position antiNode_O4O1 = new Position(7, 0);
+        Position antiNode_O4O2 = new Position(6, 3);
+        Position antiNode_O4O3 = new Position(5, 1);
+//        expectedAntiNodes.add(antiNode_O1O2);
+//        expectedAntiNodes.add(antiNode_O2O1);
+//        expectedAntiNodes.add(antiNode_O2O3);
+//        expectedAntiNodes.add(antiNode_O2O4);
+//        expectedAntiNodes.add(antiNode_O3O1);
+//        expectedAntiNodes.add(antiNode_O3O2);
+//        expectedAntiNodes.add(antiNode_O3O4);
+//        expectedAntiNodes.add(antiNode_O4O1);
+//        expectedAntiNodes.add(antiNode_O4O2);
+//        expectedAntiNodes.add(antiNode_O4O3);
+        Position antiNode_A1A2 = new Position(2, 4);
+        Position antiNode_A1A3 = new Position(1, 3);
+        Position antiNode_A2A1 = new Position(11, 10);
+        Position antiNode_A2A3 = new Position(7, 7);
+        Position antiNode_A3A2 = new Position(10, 10);
+//        expectedAntiNodes.add(antiNode_A1A2);
+//        expectedAntiNodes.add(antiNode_A1A3);
+//        expectedAntiNodes.add(antiNode_A2A1);
+//        expectedAntiNodes.add(antiNode_A2A3);
+//        expectedAntiNodes.add(antiNode_A3A2);
+
+        Set<Position> actual = Day8.getAntiNodes(antennaPositionsByChar, 11);
+
+        assertTrue(actual.contains(antiNode_A1A2));
+        assertTrue(actual.contains(antiNode_A1A3));
+        assertTrue(actual.contains(antiNode_A2A1));
+        assertTrue(actual.contains(antiNode_A2A3));
+        assertTrue(actual.contains(antiNode_A3A2));
+        assertTrue(actual.contains(antiNode_O1O2));
+        assertTrue(actual.contains(antiNode_O2O1));
+        assertTrue(actual.contains(antiNode_O2O3));
+        assertTrue(actual.contains(antiNode_O3O1));
+        assertTrue(actual.contains(antiNode_O3O2));
+        assertTrue(actual.contains(antiNode_O3O4));
+        assertTrue(actual.contains(antiNode_O4O1));
+        assertTrue(actual.contains(antiNode_O4O2));
+        assertTrue(actual.contains(antiNode_O4O3));
+        assertTrue(actual.size() == 14);
+
+        // equalling false even though the elements are the same 14 positions just in different orders?
+//        doesn't seem to be the hashing this time --> the order within the sets is variable, but it is complaining about the index when it should not
+//        assertIterableEquals(expectedAntiNodes, actual);
 
     }
 

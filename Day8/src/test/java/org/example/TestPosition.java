@@ -42,7 +42,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsFalseLowerLimitTest(){
         Position position1 = new Position(0, 0);
         boolean expected = false;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 
@@ -50,7 +50,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsFalseUpperLimitTest(){
         Position position1 = new Position(49, 49);
         boolean expected = false;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 
@@ -58,7 +58,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsTrueLowRowTest(){
         Position position1 = new Position(-1, 2);
         boolean expected = true;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 
@@ -66,7 +66,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsTrueLowColTest(){
         Position position1 = new Position(0, -1);
         boolean expected = true;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 
@@ -74,7 +74,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsTrueHighRowTest(){
         Position position1 = new Position(50, 0);
         boolean expected = true;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 
@@ -82,7 +82,7 @@ public class TestPosition {
     public void isOutOfBoundsReturnsTrueHighColTest(){
         Position position1 = new Position(0, 50);
         boolean expected = true;
-        boolean actual = position1.isOutOfBounds();
+        boolean actual = position1.isOutOfBounds(49);
         assertEquals(expected, actual);
     }
 }

@@ -7,21 +7,28 @@ import java.util.*;
 
 public class Day8 {
     public static void main(String[] args) {
-        ArrayList<char[]> antennas = Reader.getInput();
-        Map<Character, ArrayList<Position>> antennaPositions = getCharPositions(antennas);
-        Set<Character> antennaChars = antennaPositions.keySet();
+        ArrayList<char[]> antennaMap = Reader.getInput();
+        Map<Character, ArrayList<Position>> antennaPositionsByChar = getCharPositions(antennaMap);
+
+        // 50 rows and 50 columns = index limit of 49
+        // this is a code smell as it is just in for testing, so I can pass in a lower limit
+        Set<Position> antiNodes = getAntiNodes(antennaPositionsByChar, 49);
+        System.out.println(antiNodes.size());
+    }
+
+    public static Set<Position> getAntiNodes(Map<Character, ArrayList<Position>> antennaPositionsByChar, int limit) {
+        Set<Character> antennaChars = antennaPositionsByChar.keySet();
         Set<Position> antiNodes = new HashSet<>();
 
         for(char currentChar: antennaChars) {
             System.out.println(currentChar);
-            ArrayList<Position> positionsForCurrentChar = antennaPositions.get(currentChar);
-            antiNodes.addAll(getAntiNodesForChar(positionsForCurrentChar));
+            ArrayList<Position> positionsForCurrentChar = antennaPositionsByChar.get(currentChar);
+            antiNodes.addAll(getAntiNodesForChar(positionsForCurrentChar, limit));
         }
-        System.out.println(antiNodes.size());
-//        310 is too high
+        return antiNodes;
     }
 
-    private static Set<Position> getAntiNodesForChar(ArrayList<Position> positionsForCurrentChar) {
+    public static Set<Position> getAntiNodesForChar(ArrayList<Position> positionsForCurrentChar, int limit) {
         Set<Position> antiNodes = new HashSet<>();
         for(Position position: positionsForCurrentChar) {
             System.out.println("current: " + position);
@@ -32,7 +39,7 @@ public class Day8 {
                     Position difference = position.minus(other_position);
                     Position antiNodePosition = position.add(difference);
 //                        System.out.println("antinode for current - other: " + antiNodePosition);
-                    if(antiNodePosition.isNotOutOfBounds()){
+                    if(antiNodePosition.isInBounds(limit)){
 //                            System.out.println("added antinode: " + antiNodePosition);
                         antiNodes.add(antiNodePosition);
                     }

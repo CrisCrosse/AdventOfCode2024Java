@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 public class Position {
     int row;
     int col;
@@ -24,14 +26,14 @@ public class Position {
         return new Position(getRow() + pos.getRow(), getCol() + pos.getCol());
     }
 
-    public boolean isOutOfBounds() {
-        boolean rowIsOutOfBounds = getRow() < 0 || getRow() > 49;
-        boolean colIsOutOfBounds = getCol() < 0 || getCol() > 49;
+    public boolean isOutOfBounds(int limit) {
+        boolean rowIsOutOfBounds = getRow() < 0 || getRow() > limit;
+        boolean colIsOutOfBounds = getCol() < 0 || getCol() > limit;
         return rowIsOutOfBounds || colIsOutOfBounds;
     }
 
-    public boolean isNotOutOfBounds() {
-        return !isOutOfBounds();
+    public boolean isInBounds(int limit) {
+        return !isOutOfBounds(limit);
     }
 
     @Override
@@ -53,5 +55,9 @@ public class Position {
         if (!(o instanceof Position other))
             return false;
         return (this.getRow() == other.getRow()) && (this.getCol() == other.getCol());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
     }
 }
