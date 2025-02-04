@@ -25,7 +25,7 @@ public class Day8 {
         Set<Position> antiNodes = new HashSet<>();
 
         for(char currentChar: antennaChars) {
-            System.out.println(currentChar);
+//            System.out.println(currentChar);
             ArrayList<Position> positionsForCurrentChar = antennaPositionsByChar.get(currentChar);
             antiNodes.addAll(getAntiNodesForChar(positionsForCurrentChar, limit));
         }
@@ -35,7 +35,7 @@ public class Day8 {
     public static Set<Position> getAntiNodesForChar(ArrayList<Position> positionsForCurrentChar, int limit) {
         Set<Position> antiNodes = new HashSet<>();
         for(Position position: positionsForCurrentChar) {
-            System.out.println("current: " + position);
+//            System.out.println("current: " + position);
 
             for(Position other_position: positionsForCurrentChar){
                 if(!position.equals(other_position)) {
@@ -83,7 +83,7 @@ public class Day8 {
         Set<Position> antiNodes = new HashSet<>();
 
         for(char currentChar: antennaChars) {
-            System.out.println(currentChar);
+//            System.out.println(currentChar);
             ArrayList<Position> positionsForCurrentChar = antennaPositionsByChar.get(currentChar);
             antiNodes.addAll(getAntiNodesForCharWithHarmonicResonance(positionsForCurrentChar, limit));
         }
@@ -93,7 +93,7 @@ public class Day8 {
     public static Set<Position> getAntiNodesForCharWithHarmonicResonance(ArrayList<Position> positionsForCurrentChar, int limit) {
         Set<Position> antiNodes = new HashSet<>();
         for(Position position: positionsForCurrentChar) {
-            System.out.println("current: " + position);
+//            System.out.println("current: " + position);
 //            every node is now an antiNode
             antiNodes.add(position);
 
@@ -101,12 +101,11 @@ public class Day8 {
                 if(!position.equals(other_position)) {
                     Position difference = position.minus(other_position);
                     Position simplifiedDifference = difference.findMinDifference();
-//                    find gradient and calculate all possible points along that line
                     Position antiNodePosition = new Position(position.getRow(), position.getCol());
 //                    can you have antinodes between two nodes?
+//                    find gradient and calculate all possible points along that line until it leaves the map
                     while(true){
                         antiNodePosition = antiNodePosition.plus(simplifiedDifference);
-//                        I am not incrementing here; just getting stuck at first projected point
                         if(antiNodePosition.isInBounds(limit)){
                             antiNodes.add(antiNodePosition);
                         } else {
@@ -119,10 +118,4 @@ public class Day8 {
         }
         return antiNodes;
     }
-
-//    Task 2:
-//    to find antinodes, no longer just add difference:
-//    add existing node locations as antinodes
-//    find gradient - lowest common multiple of the difference eg 18 up and 12 right would be 6 up and 4 right --> 3 and 2
-//    then find all points at those diffs from either side
 }

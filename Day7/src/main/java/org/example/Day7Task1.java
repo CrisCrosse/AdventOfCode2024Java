@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Day7Task1 {
     public static void main(String[] args) {
         ArrayList<ArrayList<BigInteger>> input = Reader.getInput();
-        System.out.println(input);
+//        System.out.println(input);
 
         BigInteger sum = BigInteger.ZERO;
         for(ArrayList<BigInteger> equation: input) {
