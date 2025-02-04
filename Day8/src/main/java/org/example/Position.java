@@ -22,7 +22,7 @@ public class Position {
         return new Position(getRow() - pos.getRow(), getCol() - pos.getCol());
     }
 
-    public Position add(Position pos) {
+    public Position plus(Position pos) {
         return new Position(getRow() + pos.getRow(), getCol() + pos.getCol());
     }
 
@@ -34,6 +34,30 @@ public class Position {
 
     public boolean isInBounds(int limit) {
         return !isOutOfBounds(limit);
+    }
+
+    public Position findMinDifference() {
+        int rowDiff = getRow();
+        int colDiff = getCol();
+        int HCF = HighestCommonFactor(Math.abs(rowDiff), Math.abs(colDiff));
+
+        return new Position(rowDiff/HCF, colDiff/HCF);
+    }
+
+    static int HighestCommonFactor(int x, int y) {
+//        does not work for negative numbers
+        if(x < 0 || y < 0){
+            throw new IllegalArgumentException("negative numbers not allowed");
+        }
+        if (x == 0)
+            return y;
+        if (y == 0)
+            return x;
+        if (x == y)
+            return x;
+        if (x > y)
+            return HighestCommonFactor(x - y, y);
+        return HighestCommonFactor(x, y - x);
     }
 
     @Override

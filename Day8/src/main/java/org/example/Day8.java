@@ -6,6 +6,7 @@ package org.example;
 import java.util.*;
 
 public class Day8 {
+
     public static void main(String[] args) {
         ArrayList<char[]> antennaMap = Reader.getInput();
         Map<Character, ArrayList<Position>> antennaPositionsByChar = getCharPositions(antennaMap);
@@ -13,7 +14,10 @@ public class Day8 {
         // 50 rows and 50 columns = index limit of 49
         // this is a code smell as it is just in for testing, so I can pass in a lower limit
         Set<Position> antiNodes = getAntiNodes(antennaPositionsByChar, 49);
+//        this solution has 3 nested loops so is On^3 time complexity
         System.out.println(antiNodes.size());
+        Set<Position> antiNodesWithHarmonicResonance = getAntiNodesWithHarmonicResonance(antennaPositionsByChar, 49);
+        System.out.println(antiNodesWithHarmonicResonance.size());
     }
 
     public static Set<Position> getAntiNodes(Map<Character, ArrayList<Position>> antennaPositionsByChar, int limit) {
@@ -35,12 +39,9 @@ public class Day8 {
 
             for(Position other_position: positionsForCurrentChar){
                 if(!position.equals(other_position)) {
-//                        System.out.println("other: " + other_position);
                     Position difference = position.minus(other_position);
-                    Position antiNodePosition = position.add(difference);
-//                        System.out.println("antinode for current - other: " + antiNodePosition);
+                    Position antiNodePosition = position.plus(difference);
                     if(antiNodePosition.isInBounds(limit)){
-//                            System.out.println("added antinode: " + antiNodePosition);
                         antiNodes.add(antiNodePosition);
                     }
                 }
@@ -72,4 +73,56 @@ public class Day8 {
         }
         return allCharsAndPositions;
     }
+
+
+    public static Set<Position> getAntiNodesWithHarmonicResonance(
+            Map<Character, ArrayList<Position>> antennaPositionsByChar,
+            int limit
+    ) {
+        Set<Character> antennaChars = antennaPositionsByChar.keySet();
+        Set<Position> antiNodes = new HashSet<>();
+
+        for(char currentChar: antennaChars) {
+            System.out.println(currentChar);
+            ArrayList<Position> positionsForCurrentChar = antennaPositionsByChar.get(currentChar);
+            antiNodes.addAll(getAntiNodesForCharWithHarmonicResonance(positionsForCurrentChar, limit));
+        }
+        return antiNodes;
+    }
+
+    public static Set<Position> getAntiNodesForCharWithHarmonicResonance(ArrayList<Position> positionsForCurrentChar, int limit) {
+        Set<Position> antiNodes = new HashSet<>();
+        for(Position position: positionsForCurrentChar) {
+            System.out.println("current: " + position);
+//            every node is now an antiNode
+            antiNodes.add(position);
+
+            for(Position other_position: positionsForCurrentChar){
+                if(!position.equals(other_position)) {
+                    Position difference = position.minus(other_position);
+                    Position simplifiedDifference = difference.findMinDifference();
+//                    find gradient and calculate all possible points along that line
+                    Position antiNodePosition = new Position(position.getRow(), position.getCol());
+//                    can you have antinodes between two nodes?
+                    while(true){
+                        antiNodePosition = antiNodePosition.plus(simplifiedDifference);
+//                        I am not incrementing here; just getting stuck at first projected point
+                        if(antiNodePosition.isInBounds(limit)){
+                            antiNodes.add(antiNodePosition);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+        return antiNodes;
+    }
+
+//    Task 2:
+//    to find antinodes, no longer just add difference:
+//    add existing node locations as antinodes
+//    find gradient - lowest common multiple of the difference eg 18 up and 12 right would be 6 up and 4 right --> 3 and 2
+//    then find all points at those diffs from either side
 }
