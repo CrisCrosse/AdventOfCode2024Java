@@ -8,13 +8,85 @@ import java.util.ArrayList;
 public class Day9 {
 
     public static void main(String[] args) {
-        String inputLine = Reader.getInputLineAsString();
-        System.out.println(inputLine);
+        ArrayList<Integer> input = Reader.getInput();
+        ArrayList<Integer> diskSpace = convertInputToDiskSpace(input);
+        ArrayList<Integer> compressedDisk = compressDiskSpace(diskSpace);
+        System.out.println(compressedDisk);
+        System.out.println(calculateCheckSum(compressedDisk));
+//        1960677604 too low
     }
 
-    public static String convertInputToFileIDsAndGaps(String input) {
-        StringBuilder builder = new StringBuilder();
-        return input;
+    public static int calculateCheckSum(ArrayList<Integer> input) {
+        int sum = 0;
+        for (int index = 0; index < input.size(); index++) {
+            int fileID = input.get(index);
+            if(fileID == -1){
+                break;
+            }
+            sum += index * fileID;
+        }
+        return sum;
     }
+
+    public static ArrayList<Integer> convertInputToDiskSpace(ArrayList<Integer> input) {
+        ArrayList<Integer> diskSpace = new ArrayList<>();
+        int fileID = 0;
+
+        for(int index = 0; index < input.size(); index++) {
+            int fileOrSpaceSize = input.get(index);
+            if(index % 2 == 0){
+//           file object
+                for(int i = 0; i < fileOrSpaceSize; i++) {
+                    diskSpace.add(fileID);
+                }
+                fileID++;
+            } else {
+//          space
+                for(int i = 0; i < fileOrSpaceSize; i++) {
+                    diskSpace.add(-1);
+                }
+            }
+        }
+        return diskSpace;
+    }
+
+    public static ArrayList<Integer> compressDiskSpace(ArrayList<Integer> input) {
+        ArrayList<Integer> compressedDiskSpace = new ArrayList<>(input.size());
+        for(int value : input) {
+            compressedDiskSpace.add(value);
+        }
+
+        int lastFileIDIndex = input.size() - 1;
+
+        for(int index = 0; index < compressedDiskSpace.size() -1; index++) {
+            if(index >= lastFileIDIndex) {
+                break;
+            }
+            int fileID = compressedDiskSpace.get(index);
+                if (fileID == -1) {
+                    lastFileIDIndex = findLastFileIDUpTo(compressedDiskSpace, lastFileIDIndex);
+                    int lastFileID = compressedDiskSpace.get(lastFileIDIndex);
+//                    replace the space with the last File
+                    compressedDiskSpace.add(index, lastFileID);
+                    compressedDiskSpace.remove(index+1);
+//                    effectively replace the last file index with the space
+                    compressedDiskSpace.remove(lastFileIDIndex);
+//                    add space to the end of the Disk
+                    compressedDiskSpace.add(-1);
+                }
+        }
+
+        return compressedDiskSpace;
+    }
+
+
+    public static int findLastFileIDUpTo(ArrayList<Integer> input, int lastFileIDIndex){
+        for (int last_index = lastFileIDIndex; last_index >= 0; last_index--) {
+            if(input.get(last_index) != -1)
+                return last_index;
+        }
+        return lastFileIDIndex;
+    }
+
 
 }

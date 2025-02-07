@@ -7,6 +7,11 @@ import java.util.Scanner;
 
 public class Reader {
 
+    public static ArrayList<Integer> getInput() {
+        String inputString = Reader.getInputLineAsString();
+        return Reader.convertInputToIntArray(inputString);
+    }
+
     public static String getInputLineAsString() {
         try(Scanner scanner = new Scanner(
                 new File(
