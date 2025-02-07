@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static org.example.Day9.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDay9 {
@@ -24,7 +25,7 @@ public class TestDay9 {
         Integer[] expectedList = {0, -1, -1, 1, 1, 1, -1, -1, -1, -1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.convertInputToDiskSpace(input);
+        ArrayList<Integer> actual = convertInputToDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -38,7 +39,7 @@ public class TestDay9 {
         Integer[] expectedList = {0, 1, 1, 1, -1, -1, -1, -1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.convertInputToDiskSpace(input);
+        ArrayList<Integer> actual = convertInputToDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -49,10 +50,10 @@ public class TestDay9 {
         Integer[] inputList = {0, -1, 1};
         Collections.addAll(input, inputList);
         ArrayList<Integer> expected = new ArrayList<>();
-        Integer[] expectedList = {0, 1, -1};
+        Integer[] expectedList = {0, 1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.compressDiskSpace(input);
+        ArrayList<Integer> actual = compressDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -63,10 +64,10 @@ public class TestDay9 {
         Integer[] inputList = {0, -1, 1, -1};
         Collections.addAll(input, inputList);
         ArrayList<Integer> expected = new ArrayList<>();
-        Integer[] expectedList = {0, 1, -1, -1};
+        Integer[] expectedList = {0, 1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.compressDiskSpace(input);
+        ArrayList<Integer> actual = compressDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -77,10 +78,10 @@ public class TestDay9 {
         Integer[] inputList = {0, -1, 8, 8, 9, 9};
         Collections.addAll(input, inputList);
         ArrayList<Integer> expected = new ArrayList<>();
-        Integer[] expectedList = {0, 9, 8, 8, 9, -1};
+        Integer[] expectedList = {0, 9, 8, 8, 9};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.compressDiskSpace(input);
+        ArrayList<Integer> actual = compressDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -95,7 +96,7 @@ public class TestDay9 {
         Integer[] expectedList = {0, 1, 1, 1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.compressDiskSpace(input);
+        ArrayList<Integer> actual = compressDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -106,10 +107,10 @@ public class TestDay9 {
         Integer[] inputList = {0, 1, 1, 1, -1, -1, -1, -1};
         Collections.addAll(input, inputList);
         ArrayList<Integer> expected = new ArrayList<>();
-        Integer[] expectedList = {0, 1, 1, 1, -1, -1, -1, -1};
+        Integer[] expectedList = {0, 1, 1, 1};
         Collections.addAll(expected, expectedList);
 
-        ArrayList<Integer> actual = Day9.compressDiskSpace(input);
+        ArrayList<Integer> actual = compressDiskSpace(input);
 
         assertEquals(expected, actual);
     }
@@ -153,6 +154,19 @@ public class TestDay9 {
         int actual = Day9.findLastFileIDUpTo(input, inputLastIndex);
 
         assertEquals(expectedNextLastIndex, actual);
+    }
+
+    @Test
+    public void exampleTest() {
+        String inputString = "2333133121414131402";
+        ArrayList<Integer> input = Reader.convertInputToIntArray(inputString);
+        ArrayList<Integer> diskSpace = convertInputToDiskSpace(input);
+        ArrayList<Integer> compressedDisk = compressDiskSpace(diskSpace);
+        System.out.println(compressedDisk);
+        int actual = calculateCheckSum(compressedDisk);
+
+        assertEquals(1928, actual);
+
     }
 
 

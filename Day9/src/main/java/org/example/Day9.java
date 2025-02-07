@@ -3,6 +3,7 @@
  */
 package org.example;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class Day9 {
@@ -11,11 +12,22 @@ public class Day9 {
         ArrayList<Integer> input = Reader.getInput();
         ArrayList<Integer> diskSpace = convertInputToDiskSpace(input);
         ArrayList<Integer> compressedDisk = compressDiskSpace(diskSpace);
-        System.out.println(compressedDisk);
-        System.out.println(calculateCheckSum(compressedDisk));
-//        1960677604 too low
-    }
+//        System.out.println(compressedDisk);
+//        System.out.println(calculateCheckSum(compressedDisk));
+        BigInteger count = BigInteger.ZERO;
+        for (int i = 0; i < compressedDisk.size(); i++) {
+            count = count.add(BigInteger.valueOf(i).multiply(BigInteger.valueOf(compressedDisk.get(i))));
+        }
 
+        System.out.println(count);
+//        1960677604 too low
+//        1960677604 exactly the same with constructing the list only from the fileIDs
+//        2147483647
+//        too low means that I am moving things too far along?
+//        6384282079460 correct
+
+    }
+//It was this not being a big Int :((((
     public static int calculateCheckSum(ArrayList<Integer> input) {
         int sum = 0;
         for (int index = 0; index < input.size(); index++) {
@@ -23,7 +35,7 @@ public class Day9 {
             if(fileID == -1){
                 break;
             }
-            sum += index * fileID;
+            sum += (index * fileID);
         }
         return sum;
     }
@@ -52,28 +64,27 @@ public class Day9 {
 
     public static ArrayList<Integer> compressDiskSpace(ArrayList<Integer> input) {
         ArrayList<Integer> compressedDiskSpace = new ArrayList<>(input.size());
-        for(int value : input) {
-            compressedDiskSpace.add(value);
-        }
+        int indexOfLastFileToMoveToFront = input.size() - 1;
 
-        int lastFileIDIndex = input.size() - 1;
-
-        for(int index = 0; index < compressedDiskSpace.size() -1; index++) {
-            if(index >= lastFileIDIndex) {
+        for(int index = 0; index <= input.size() -1; index++) {
+            if(index > indexOfLastFileToMoveToFront) {
                 break;
             }
-            int fileID = compressedDiskSpace.get(index);
-                if (fileID == -1) {
-                    lastFileIDIndex = findLastFileIDUpTo(compressedDiskSpace, lastFileIDIndex);
-                    int lastFileID = compressedDiskSpace.get(lastFileIDIndex);
-//                    replace the space with the last File
-                    compressedDiskSpace.add(index, lastFileID);
-                    compressedDiskSpace.remove(index+1);
-//                    effectively replace the last file index with the space
-                    compressedDiskSpace.remove(lastFileIDIndex);
-//                    add space to the end of the Disk
-                    compressedDiskSpace.add(-1);
+            int fileID = input.get(index);
+            if (fileID == -1) {
+                indexOfLastFileToMoveToFront = findLastFileIDUpTo(input, indexOfLastFileToMoveToFront);
+                if(indexOfLastFileToMoveToFront < index){
+                    break;
                 }
+                int fileToMoveToFront = input.get(indexOfLastFileToMoveToFront);
+
+                compressedDiskSpace.add(fileToMoveToFront);
+//                    have now dealt with the lastFileID so find up to previous value
+                indexOfLastFileToMoveToFront--;
+
+            } else {
+                compressedDiskSpace.add(fileID);
+            }
         }
 
         return compressedDiskSpace;
