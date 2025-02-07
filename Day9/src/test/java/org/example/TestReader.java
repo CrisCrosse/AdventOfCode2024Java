@@ -8,7 +8,10 @@ import java.util.ArrayList;
 public class TestReader {
     @Test
     public void getInputTest() {
-        ArrayList<String> actual = Reader.getInputLine();
+        String inputString = Reader.getInputLineAsString();
+        ArrayList<Integer> inputIntArray = Reader.convertInputToIntArray(inputString);
+
+        assert inputIntArray.size() == 19999;
 
     }
 }

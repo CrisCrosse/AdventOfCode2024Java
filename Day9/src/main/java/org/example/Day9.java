@@ -3,10 +3,18 @@
  */
 package org.example;
 
+import java.util.ArrayList;
+
 public class Day9 {
 
     public static void main(String[] args) {
-        System.out.println("Day 9");
+        String inputLine = Reader.getInputLineAsString();
+        System.out.println(inputLine);
+    }
+
+    public static String convertInputToFileIDsAndGaps(String input) {
+        StringBuilder builder = new StringBuilder();
+        return input;
     }
 
 }
