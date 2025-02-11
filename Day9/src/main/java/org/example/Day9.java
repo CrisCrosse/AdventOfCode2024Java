@@ -12,32 +12,17 @@ public class Day9 {
         ArrayList<Integer> input = Reader.getInput();
         ArrayList<Integer> diskSpace = convertInputToDiskSpace(input);
         ArrayList<Integer> compressedDisk = compressDiskSpace(diskSpace);
-//        System.out.println(compressedDisk);
-//        System.out.println(calculateCheckSum(compressedDisk));
-        BigInteger count = BigInteger.ZERO;
-        for (int i = 0; i < compressedDisk.size(); i++) {
-            count = count.add(BigInteger.valueOf(i).multiply(BigInteger.valueOf(compressedDisk.get(i))));
-        }
 
+        BigInteger count = calculateCheckSum(compressedDisk);
         System.out.println(count);
-//        1960677604 too low
-//        1960677604 exactly the same with constructing the list only from the fileIDs
-//        2147483647
-//        too low means that I am moving things too far along?
-//        6384282079460 correct
 
     }
-//It was this not being a big Int :((((
-    public static int calculateCheckSum(ArrayList<Integer> input) {
-        int sum = 0;
-        for (int index = 0; index < input.size(); index++) {
-            int fileID = input.get(index);
-            if(fileID == -1){
-                break;
-            }
-            sum += (index * fileID);
+    public static BigInteger calculateCheckSum(ArrayList<Integer> input) {
+        BigInteger count = BigInteger.ZERO;
+        for (int i = 0; i < input.size(); i++) {
+            count = count.add(BigInteger.valueOf(i).multiply(BigInteger.valueOf(input.get(i))));
         }
-        return sum;
+        return count;
     }
 
     public static ArrayList<Integer> convertInputToDiskSpace(ArrayList<Integer> input) {

@@ -2,6 +2,7 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -163,9 +164,9 @@ public class TestDay9 {
         ArrayList<Integer> diskSpace = convertInputToDiskSpace(input);
         ArrayList<Integer> compressedDisk = compressDiskSpace(diskSpace);
         System.out.println(compressedDisk);
-        int actual = calculateCheckSum(compressedDisk);
+        BigInteger actual = calculateCheckSum(compressedDisk);
 
-        assertEquals(1928, actual);
+        assertEquals(BigInteger.valueOf(1928), actual);
 
     }
 
